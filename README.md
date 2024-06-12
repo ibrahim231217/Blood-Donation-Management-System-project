@@ -2,9 +2,9 @@
 #include <fstream>
 #include <cstring>
 #include <ctime>
+
+
 using namespace std;
-
-
 struct Donor {
     char name[50];
     char address[100];
@@ -31,8 +31,9 @@ void sortDonors(Node*& head);
 bool compareDates(const char* date1, const char* date2);
 time_t parseDate(const char* date);
 
-int main() {
-    cout << "\nWelcome To Blood Donation\n\nWarning: Don't Donate Blood To Close Relative. It can cause various diseases, such as Genetic Disorder, Inherited disease, etc.\n";
+int main()
+{
+
     int choice;
     Node* head = nullptr;
     while (true) {
@@ -68,9 +69,15 @@ int main() {
                 cout << "Invalid choice. Please try again.\n";
         }
     }
+
     return 0;
+
 }
-void displayMenu() {
+
+void displayMenu()
+
+{
+
     cout << "\nBlood Donation System\n";
     cout << "1. Add Donor\n";
     cout << "2. Search Donor\n";
@@ -81,7 +88,9 @@ void displayMenu() {
     cout << "7. Sort Donors\n";
     cout << "8. Exit\n";
 }
+
 void addDonor(Node*& head) {
+
     Donor donor;
     cout << "\nEnter Donor Details:\n";
     cout << "Name: ";
@@ -99,10 +108,14 @@ void addDonor(Node*& head) {
     if (!file) {
         cout << "Error opening the donor database file.\n";
         return;
+
     }
+
     file << donor.name << ";" << donor.address << ";" << donor.mobileNumber << ";" << donor.bloodGroup << ";" << donor.lastDonationDate << endl;
     file.close();
+
     Node* newNode = new Node{donor, head};
+
     head = newNode;
 
     cout << "Donor added successfully!\n";
@@ -113,6 +126,7 @@ void searchDonor(Node* head) {
     cout << "\nEnter the blood group to search: ";
     cin >> bloodGroup;
     Node* current = head;
+
     bool found = false;
     while (current != nullptr) {
         if (strcmp(current->donor.bloodGroup, bloodGroup) == 0) {
@@ -124,16 +138,21 @@ void searchDonor(Node* head) {
             cout << "Last Donation Date: " << current->donor.lastDonationDate << endl;
             found = true;
         }
+
         current = current->next;
     }
+
     if (!found) {
         cout << "No donor found with the specified blood group.\n";
+
     }
 }
 
 
 void displayDonorDatabase(Node* head) {
+
     Node* current = head;
+
     cout << "\nDonor Database:\n";
     while (current != nullptr) {
         cout << "\nName: " << current->donor.name << endl;
@@ -142,10 +161,13 @@ void displayDonorDatabase(Node* head) {
         cout << "Blood Group: " << current->donor.bloodGroup << endl;
         cout << "Last Donation Date: " << current->donor.lastDonationDate << endl;
         current = current->next;
+
     }
 }
 
-void updateDonor(Node* head) {
+void updateDonor(Node* head)
+{
+
     char name[50];
     cout << "\nEnter the name of the donor to update: ";
     cin >> name;
@@ -165,35 +187,52 @@ void updateDonor(Node* head) {
             cout << "Last Donation Date: ";
             cin >> current->donor.lastDonationDate;
             break;
+
         }
+
         current = current->next;
     }
-    if (found) {
+
+    if (found)
+        {
         ofstream file("donor_database.txt");
         if (!file) {
             cout << "Error opening the donor database file.\n";
             return;
         }
         current = head;
+
         while (current != nullptr) {
+
             file << current->donor.name << ";" << current->donor.address << ";" << current->donor.mobileNumber << ";" << current->donor.bloodGroup << ";" << current->donor.lastDonationDate << endl;
             current = current->next;
         }
+
         file.close();
+
         cout << "Donor information updated successfully.\n";
-    } else {
+    }
+
+    else {
         cout << "Donor not found.\n";
     }
 }
 
-void deleteDonor(Node*& head) {
+void deleteDonor(Node*& head)
+{
+
     char name[50];
     cout << "\nEnter the name of the donor to delete: ";
     cin >> name;
+
     Node* current = head;
+
     Node* prev = nullptr;
+
     bool found = false;
-    while (current != nullptr) {
+
+    while (current != nullptr)
+        {
         if (strcmp(current->donor.name, name) == 0) {
             if (prev == nullptr) {
                 head = current->next;
@@ -203,24 +242,34 @@ void deleteDonor(Node*& head) {
             delete current;
             found = true;
             break;
+
         }
         prev = current;
+
         current = current->next;
     }
     if (found) {
+
         ofstream file("donor_database.txt");
-        if (!file) {
+
+        if (!file)
+            {
             cout << "Error opening the donor database file.\n";
             return;
         }
+
         current = head;
-        while (current != nullptr) {
+
+        while (current != nullptr)
+            {
             file << current->donor.name << ";" << current->donor.address << ";" << current->donor.mobileNumber << ";" << current->donor.bloodGroup << ";" << current->donor.lastDonationDate << endl;
             current = current->next;
         }
         file.close();
         cout << "Donor deleted successfully.\n";
-    } else {
+    }
+
+    else {
         cout << "Donor not found.\n";
     }
 }
@@ -229,7 +278,8 @@ bool compareDates(const char* date1, const char* date2) {
     return parseDate(date1) <= parseDate(date2);
 }
 
-time_t parseDate(const char* date) {
+time_t parseDate(const char* date)
+{
     struct tm tm = {0};
     sscanf(date, "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday);
     tm.tm_year -= 1900; // Years since 1900
@@ -237,7 +287,9 @@ time_t parseDate(const char* date) {
     return mktime(&tm);
 }
 
-void recentDonors(Node* head) {
+void recentDonors(Node* head)
+
+{
     time_t t = time(nullptr);
     tm* now = localtime(&t);
     char currentDate[20];
@@ -245,7 +297,11 @@ void recentDonors(Node* head) {
     Node* current = head;
     bool found = false;
     cout << "\nRecent Donors (within the last 30 days):\n";
-    while (current != nullptr) {
+
+
+    while (current != nullptr)
+
+        {
         time_t donationDate = parseDate(current->donor.lastDonationDate);
         double diffDays = difftime(t, donationDate) / (60 * 60 * 24);
         if (diffDays <= 30) {
@@ -258,11 +314,13 @@ void recentDonors(Node* head) {
         }
         current = current->next;
     }
-    if (!found) {
+    if (!found)
+    {
         cout << "No recent donors found.\n";
     }
 }
-void sortDonors(Node*& head) {
+void sortDonors(Node*& head)
+ {
     if (head == nullptr || head->next == nullptr) {
         return;
     }
