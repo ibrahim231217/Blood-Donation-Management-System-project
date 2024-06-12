@@ -23,15 +23,25 @@ struct Node
 
 
 void displayMenu();
+
 void addDonor(Node*& head);
+
 void searchDonor(Node* head);
+
 void displayDonorDatabase(Node* head);
+
 void updateDonor(Node* head);
+
 void deleteDonor(Node*& head);
+
 void recentDonors(Node* head);
+
 void sortDonors(Node*& head);
+
 bool compareDates(const char* date1, const char* date2);
+
 time_t parseDate(const char* date);
+
 
 int main()
 {
