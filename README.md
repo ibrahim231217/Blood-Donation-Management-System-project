@@ -7,7 +7,9 @@
 using namespace std;
 struct Donor
 {
+
     char name[50];
+    
     char address[100];
     char mobileNumber[20];
     char bloodGroup[5];
@@ -139,6 +141,8 @@ void addDonor(Node*& head)
 
 void searchDonor(Node* head)
 {
+
+
     char bloodGroup[5];
     cout << "\nEnter the blood group to search: ";
     cin >> bloodGroup;
@@ -308,12 +312,18 @@ void deleteDonor(Node*& head)
 }
 
 bool compareDates(const char* date1, const char* date2)
+
 {
+
     return parseDate(date1) <= parseDate(date2);
 }
 
+
 time_t parseDate(const char* date)
+
 {
+
+
     struct tm tm = {0};
     sscanf(date, "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday);
     tm.tm_year -= 1900; // Years since 1900
@@ -324,7 +334,9 @@ time_t parseDate(const char* date)
 void recentDonors(Node* head)
 
 {
+
     time_t t = time(nullptr);
+    
     tm* now = localtime(&t);
     char currentDate[20];
     strftime(currentDate, sizeof(currentDate), "%Y-%m-%d", now);
@@ -354,9 +366,15 @@ void recentDonors(Node* head)
         cout << "No recent donors found.\n";
     }
 }
+
+
 void sortDonors(Node*& head)
+
+
 {
+
     if (head == nullptr || head->next == nullptr)
+    
     {
         return;
     }
@@ -365,6 +383,7 @@ void sortDonors(Node*& head)
     while (current != nullptr)
     {
         Node* next = current->next;
+        
         if (sorted == nullptr || strcmp(current->donor.name, sorted->donor.name) <= 0)
         {
             current->next = sorted;
