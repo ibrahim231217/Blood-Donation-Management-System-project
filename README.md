@@ -1,20 +1,10 @@
 #include <iostream>
-
-
 #include <fstream>
-
-
 #include <cstring>
-
-
 #include <ctime>
 
 
-
-
 using namespace std;
-
-
 struct Donor
 
 {
@@ -29,6 +19,7 @@ struct Donor
 
 struct Node
 {
+
     Donor donor;
     Node* next;
 };
@@ -328,6 +319,7 @@ time_t parseDate(const char* date)
 
 void recentDonors(Node* head)
 
+
 {
 
     time_t t = time(nullptr);
@@ -366,33 +358,23 @@ void sortDonors(Node*& head)
 
     if (head == nullptr || head->next == nullptr)
     {
-
-    
         return;
     }
     Node* sorted = nullptr;
     Node* current = head;
     while (current != nullptr)
     {
-
-    
         Node* next = current->next;
         if (sorted == nullptr || strcmp(current->donor.name, sorted->donor.name) <= 0)
         {
-
-        
             current->next = sorted;
             sorted = current;
         }
         else
         {
-
-        
             Node* temp = sorted;
             while (temp->next != nullptr && strcmp(current->donor.name, temp->next->donor.name) > 0)
             {
-
-            
                 temp = temp->next;
             }
             current->next = temp->next;
