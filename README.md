@@ -5,6 +5,8 @@
 
 
 using namespace std;
+
+
 struct Donor {
     char name[50];
     char address[100];
