@@ -5,9 +5,8 @@
 
 
 using namespace std;
-
-
-struct Donor {
+struct Donor
+{
     char name[50];
     char address[100];
     char mobileNumber[20];
@@ -16,7 +15,8 @@ struct Donor {
 };
 
 
-struct Node {
+struct Node
+{
     Donor donor;
     Node* next;
 };
@@ -38,37 +38,39 @@ int main()
 
     int choice;
     Node* head = nullptr;
-    while (true) {
+    while (true)
+    {
         displayMenu();
         cout << "Enter your choice: ";
         cin >> choice;
-        switch (choice) {
-            case 1:
-                addDonor(head);
-                break;
-            case 2:
-                searchDonor(head);
-                break;
-            case 3:
-                displayDonorDatabase(head);
-                break;
-            case 4:
-                updateDonor(head);
-                break;
-            case 5:
-                deleteDonor(head);
-                break;
-            case 6:
-                recentDonors(head);
-                break;
-            case 7:
-                sortDonors(head);
-                break;
-            case 8:
-                cout << "Thank you for using the blood donation system. Goodbye!\n";
-                return 0;
-            default:
-                cout << "Invalid choice. Please try again.\n";
+        switch (choice)
+        {
+        case 1:
+            addDonor(head);
+            break;
+        case 2:
+            searchDonor(head);
+            break;
+        case 3:
+            displayDonorDatabase(head);
+            break;
+        case 4:
+            updateDonor(head);
+            break;
+        case 5:
+            deleteDonor(head);
+            break;
+        case 6:
+            recentDonors(head);
+            break;
+        case 7:
+            sortDonors(head);
+            break;
+        case 8:
+            cout << "Thank you for using the blood donation system. Goodbye!\n";
+            return 0;
+        default:
+            cout << "Invalid choice. Please try again.\n";
         }
     }
 
@@ -91,7 +93,8 @@ void displayMenu()
     cout << "8. Exit\n";
 }
 
-void addDonor(Node*& head) {
+void addDonor(Node*& head)
+{
 
     Donor donor;
     cout << "\nEnter Donor Details:\n";
@@ -107,7 +110,8 @@ void addDonor(Node*& head) {
     cout << "Last Donation Date (YYYY-MM-DD): ";
     cin >> donor.lastDonationDate;
     ofstream file("donor_database.txt", ios::app);
-    if (!file) {
+    if (!file)
+    {
         cout << "Error opening the donor database file.\n";
         return;
 
@@ -123,15 +127,18 @@ void addDonor(Node*& head) {
     cout << "Donor added successfully!\n";
 }
 
-void searchDonor(Node* head) {
+void searchDonor(Node* head)
+{
     char bloodGroup[5];
     cout << "\nEnter the blood group to search: ";
     cin >> bloodGroup;
     Node* current = head;
 
     bool found = false;
-    while (current != nullptr) {
-        if (strcmp(current->donor.bloodGroup, bloodGroup) == 0) {
+    while (current != nullptr)
+    {
+        if (strcmp(current->donor.bloodGroup, bloodGroup) == 0)
+        {
             cout << "\nDonor found:\n";
             cout << "Name: " << current->donor.name << endl;
             cout << "Address: " << current->donor.address << endl;
@@ -144,19 +151,22 @@ void searchDonor(Node* head) {
         current = current->next;
     }
 
-    if (!found) {
+    if (!found)
+    {
         cout << "No donor found with the specified blood group.\n";
 
     }
 }
 
 
-void displayDonorDatabase(Node* head) {
+void displayDonorDatabase(Node* head)
+{
 
     Node* current = head;
 
     cout << "\nDonor Database:\n";
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
         cout << "\nName: " << current->donor.name << endl;
         cout << "Address: " << current->donor.address << endl;
         cout << "Mobile Number: " << current->donor.mobileNumber << endl;
@@ -175,8 +185,10 @@ void updateDonor(Node* head)
     cin >> name;
     Node* current = head;
     bool found = false;
-    while (current != nullptr) {
-        if (strcmp(current->donor.name, name) == 0) {
+    while (current != nullptr)
+    {
+        if (strcmp(current->donor.name, name) == 0)
+        {
             found = true;
             cout << "\nEnter new details for " << name << ":\n";
             cout << "Address: ";
@@ -196,15 +208,17 @@ void updateDonor(Node* head)
     }
 
     if (found)
-        {
+    {
         ofstream file("donor_database.txt");
-        if (!file) {
+        if (!file)
+        {
             cout << "Error opening the donor database file.\n";
             return;
         }
         current = head;
 
-        while (current != nullptr) {
+        while (current != nullptr)
+        {
 
             file << current->donor.name << ";" << current->donor.address << ";" << current->donor.mobileNumber << ";" << current->donor.bloodGroup << ";" << current->donor.lastDonationDate << endl;
             current = current->next;
@@ -215,7 +229,8 @@ void updateDonor(Node* head)
         cout << "Donor information updated successfully.\n";
     }
 
-    else {
+    else
+    {
         cout << "Donor not found.\n";
     }
 }
@@ -234,11 +249,15 @@ void deleteDonor(Node*& head)
     bool found = false;
 
     while (current != nullptr)
+    {
+        if (strcmp(current->donor.name, name) == 0)
         {
-        if (strcmp(current->donor.name, name) == 0) {
-            if (prev == nullptr) {
+            if (prev == nullptr)
+            {
                 head = current->next;
-            } else {
+            }
+            else
+            {
                 prev->next = current->next;
             }
             delete current;
@@ -250,12 +269,13 @@ void deleteDonor(Node*& head)
 
         current = current->next;
     }
-    if (found) {
+    if (found)
+    {
 
         ofstream file("donor_database.txt");
 
         if (!file)
-            {
+        {
             cout << "Error opening the donor database file.\n";
             return;
         }
@@ -263,7 +283,7 @@ void deleteDonor(Node*& head)
         current = head;
 
         while (current != nullptr)
-            {
+        {
             file << current->donor.name << ";" << current->donor.address << ";" << current->donor.mobileNumber << ";" << current->donor.bloodGroup << ";" << current->donor.lastDonationDate << endl;
             current = current->next;
         }
@@ -271,12 +291,14 @@ void deleteDonor(Node*& head)
         cout << "Donor deleted successfully.\n";
     }
 
-    else {
+    else
+    {
         cout << "Donor not found.\n";
     }
 }
 
-bool compareDates(const char* date1, const char* date2) {
+bool compareDates(const char* date1, const char* date2)
+{
     return parseDate(date1) <= parseDate(date2);
 }
 
@@ -303,10 +325,11 @@ void recentDonors(Node* head)
 
     while (current != nullptr)
 
-        {
+    {
         time_t donationDate = parseDate(current->donor.lastDonationDate);
         double diffDays = difftime(t, donationDate) / (60 * 60 * 24);
-        if (diffDays <= 30) {
+        if (diffDays <= 30)
+        {
             cout << "\nName: " << current->donor.name << endl;
             cout << "Address: " << current->donor.address << endl;
             cout << "Mobile Number: " << current->donor.mobileNumber << endl;
@@ -322,20 +345,26 @@ void recentDonors(Node* head)
     }
 }
 void sortDonors(Node*& head)
- {
-    if (head == nullptr || head->next == nullptr) {
+{
+    if (head == nullptr || head->next == nullptr)
+    {
         return;
     }
     Node* sorted = nullptr;
     Node* current = head;
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
         Node* next = current->next;
-        if (sorted == nullptr || strcmp(current->donor.name, sorted->donor.name) <= 0) {
+        if (sorted == nullptr || strcmp(current->donor.name, sorted->donor.name) <= 0)
+        {
             current->next = sorted;
             sorted = current;
-        } else {
+        }
+        else
+        {
             Node* temp = sorted;
-            while (temp->next != nullptr && strcmp(current->donor.name, temp->next->donor.name) > 0) {
+            while (temp->next != nullptr && strcmp(current->donor.name, temp->next->donor.name) > 0)
+            {
                 temp = temp->next;
             }
             current->next = temp->next;
