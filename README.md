@@ -4,7 +4,7 @@
 #include <ctime>
 using namespace std;
 
-// Define a struct to hold donor information
+
 struct Donor {
     char name[50];
     char address[100];
@@ -13,13 +13,13 @@ struct Donor {
     char lastDonationDate[20];
 };
 
-// Linked list node
+
 struct Node {
     Donor donor;
     Node* next;
 };
 
-// Function prototypes
+
 void displayMenu();
 void addDonor(Node*& head);
 void searchDonor(Node* head);
@@ -35,12 +35,10 @@ int main() {
     cout << "\nWelcome To Blood Donation\n\nWarning: Don't Donate Blood To Close Relative. It can cause various diseases, such as Genetic Disorder, Inherited disease, etc.\n";
     int choice;
     Node* head = nullptr;
-
     while (true) {
         displayMenu();
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:
                 addDonor(head);
@@ -70,11 +68,8 @@ int main() {
                 cout << "Invalid choice. Please try again.\n";
         }
     }
-
     return 0;
 }
-
-// Function to display the menu
 void displayMenu() {
     cout << "\nBlood Donation System\n";
     cout << "1. Add Donor\n";
@@ -86,11 +81,8 @@ void displayMenu() {
     cout << "7. Sort Donors\n";
     cout << "8. Exit\n";
 }
-
-// Function to add a donor
 void addDonor(Node*& head) {
     Donor donor;
-
     cout << "\nEnter Donor Details:\n";
     cout << "Name: ";
     cin >> donor.name;
@@ -103,33 +95,25 @@ void addDonor(Node*& head) {
     cin >> donor.bloodGroup;
     cout << "Last Donation Date (YYYY-MM-DD): ";
     cin >> donor.lastDonationDate;
-
     ofstream file("donor_database.txt", ios::app);
     if (!file) {
         cout << "Error opening the donor database file.\n";
         return;
     }
-
     file << donor.name << ";" << donor.address << ";" << donor.mobileNumber << ";" << donor.bloodGroup << ";" << donor.lastDonationDate << endl;
     file.close();
-
-    // Add donor to linked list
     Node* newNode = new Node{donor, head};
     head = newNode;
 
     cout << "Donor added successfully!\n";
 }
 
-// Function to search for a donor by blood group
 void searchDonor(Node* head) {
     char bloodGroup[5];
-
     cout << "\nEnter the blood group to search: ";
     cin >> bloodGroup;
-
     Node* current = head;
     bool found = false;
-
     while (current != nullptr) {
         if (strcmp(current->donor.bloodGroup, bloodGroup) == 0) {
             cout << "\nDonor found:\n";
@@ -142,18 +126,15 @@ void searchDonor(Node* head) {
         }
         current = current->next;
     }
-
     if (!found) {
         cout << "No donor found with the specified blood group.\n";
     }
 }
 
-// Function to display the entire donor database
+
 void displayDonorDatabase(Node* head) {
     Node* current = head;
-
     cout << "\nDonor Database:\n";
-
     while (current != nullptr) {
         cout << "\nName: " << current->donor.name << endl;
         cout << "Address: " << current->donor.address << endl;
@@ -164,15 +145,12 @@ void displayDonorDatabase(Node* head) {
     }
 }
 
-// Function to update a donor's information
 void updateDonor(Node* head) {
     char name[50];
     cout << "\nEnter the name of the donor to update: ";
     cin >> name;
-
     Node* current = head;
     bool found = false;
-
     while (current != nullptr) {
         if (strcmp(current->donor.name, name) == 0) {
             found = true;
@@ -190,37 +168,31 @@ void updateDonor(Node* head) {
         }
         current = current->next;
     }
-
     if (found) {
         ofstream file("donor_database.txt");
         if (!file) {
             cout << "Error opening the donor database file.\n";
             return;
         }
-
         current = head;
         while (current != nullptr) {
             file << current->donor.name << ";" << current->donor.address << ";" << current->donor.mobileNumber << ";" << current->donor.bloodGroup << ";" << current->donor.lastDonationDate << endl;
             current = current->next;
         }
         file.close();
-
         cout << "Donor information updated successfully.\n";
     } else {
         cout << "Donor not found.\n";
     }
 }
 
-// Function to delete a donor's record
 void deleteDonor(Node*& head) {
     char name[50];
     cout << "\nEnter the name of the donor to delete: ";
     cin >> name;
-
     Node* current = head;
     Node* prev = nullptr;
     bool found = false;
-
     while (current != nullptr) {
         if (strcmp(current->donor.name, name) == 0) {
             if (prev == nullptr) {
@@ -235,33 +207,28 @@ void deleteDonor(Node*& head) {
         prev = current;
         current = current->next;
     }
-
     if (found) {
         ofstream file("donor_database.txt");
         if (!file) {
             cout << "Error opening the donor database file.\n";
             return;
         }
-
         current = head;
         while (current != nullptr) {
             file << current->donor.name << ";" << current->donor.address << ";" << current->donor.mobileNumber << ";" << current->donor.bloodGroup << ";" << current->donor.lastDonationDate << endl;
             current = current->next;
         }
         file.close();
-
         cout << "Donor deleted successfully.\n";
     } else {
         cout << "Donor not found.\n";
     }
 }
 
-// Function to compare two dates in YYYY-MM-DD format
 bool compareDates(const char* date1, const char* date2) {
     return parseDate(date1) <= parseDate(date2);
 }
 
-// Function to parse a date in YYYY-MM-DD format into a time_t value
 time_t parseDate(const char* date) {
     struct tm tm = {0};
     sscanf(date, "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday);
@@ -270,23 +237,17 @@ time_t parseDate(const char* date) {
     return mktime(&tm);
 }
 
-// Function to display recent donors (those who donated within the last 30 days)
 void recentDonors(Node* head) {
-    // Get current date
     time_t t = time(nullptr);
     tm* now = localtime(&t);
     char currentDate[20];
     strftime(currentDate, sizeof(currentDate), "%Y-%m-%d", now);
-
     Node* current = head;
     bool found = false;
-
     cout << "\nRecent Donors (within the last 30 days):\n";
-
     while (current != nullptr) {
         time_t donationDate = parseDate(current->donor.lastDonationDate);
         double diffDays = difftime(t, donationDate) / (60 * 60 * 24);
-
         if (diffDays <= 30) {
             cout << "\nName: " << current->donor.name << endl;
             cout << "Address: " << current->donor.address << endl;
@@ -297,21 +258,16 @@ void recentDonors(Node* head) {
         }
         current = current->next;
     }
-
     if (!found) {
         cout << "No recent donors found.\n";
     }
 }
-
-// Function to sort donors (by name)
 void sortDonors(Node*& head) {
     if (head == nullptr || head->next == nullptr) {
         return;
     }
-
     Node* sorted = nullptr;
     Node* current = head;
-
     while (current != nullptr) {
         Node* next = current->next;
         if (sorted == nullptr || strcmp(current->donor.name, sorted->donor.name) <= 0) {
@@ -327,7 +283,6 @@ void sortDonors(Node*& head) {
         }
         current = next;
     }
-
     head = sorted;
     cout << "Donors sorted by name.\n";
 }
