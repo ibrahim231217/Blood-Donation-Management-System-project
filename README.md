@@ -2,12 +2,17 @@
 #include <fstream>
 #include <cstring>
 #include <ctime>
+
 using namespace std;
 
 
 
-struct Donor {
+struct Donor
+
+{
+
     char name[50];
+
     char address[100];
     char mobileNumber[20];
     char bloodGroup[5];
@@ -18,14 +23,20 @@ struct Donor {
 
 
 struct Node {
+
     Donor donor;
     Node* next;
+
 };
 
 
 
+
+
 void displayMenu();
+
 void addDonor(Node*& head);
+
 void searchDonor(Node* head);
 void displayDonorDatabase(Node* head);
 void updateDonor(Node* head);
@@ -34,6 +45,8 @@ bool compareDates(const char* date1, const char* date2);
 time_t parseDate(const char* date);
 
 int main() {
+
+
     cout << "\nWelcome To Blood Donation\n";
     int choice;
     Node* head = nullptr;
@@ -72,6 +85,7 @@ int main() {
 
 
 void displayMenu() {
+
     cout << "\nBlood Donation System\n";
     cout << "1. Add Donor\n";
     cout << "2. Search Donor\n";
@@ -83,6 +97,7 @@ void displayMenu() {
 
 
 void addDonor(Node*& head) {
+
     Donor donor;
 
     cout << "\nEnter Donor Details:\n";
@@ -115,6 +130,7 @@ void addDonor(Node*& head) {
 }
 
 void searchDonor(Node* head) {
+
     char bloodGroup[5];
 
     cout << "\nEnter the blood group to search: ";
@@ -142,6 +158,8 @@ void searchDonor(Node* head) {
 }
 
 void displayDonorDatabase(Node* head) {
+
+
     Node* current = head;
 
     cout << "\nDonor Database:\n";
@@ -158,6 +176,8 @@ void displayDonorDatabase(Node* head) {
 
 
 void updateDonor(Node* head) {
+
+
     char name[50];
     cout << "\nEnter the name of the donor to update: ";
     cin >> name;
@@ -206,6 +226,8 @@ void updateDonor(Node* head) {
 
 
 void deleteDonor(Node*& head) {
+
+
     char name[50];
     cout << "\nEnter the name of the donor to delete: ";
     cin >> name;
@@ -250,10 +272,12 @@ void deleteDonor(Node*& head) {
 }
 
 bool compareDates(const char* date1, const char* date2) {
+
     return parseDate(date1) <= parseDate(date2);
 }
 
 time_t parseDate(const char* date) {
+
     struct tm tm = {0};
     sscanf(date, "%d-%m-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday);
     tm.tm_year -= 1900;
